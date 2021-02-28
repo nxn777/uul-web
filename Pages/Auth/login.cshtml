@@ -1,0 +1,27 @@
+﻿@page
+@model uul_web.Pages.Login.LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1>Log in</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="LoginDTO.Login" class="control-label"></label>
+        <input asp-for="LoginDTO.Login" class="form-control" value="mmd900"/>
+        <span asp-validation-for="LoginDTO.Login" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LoginDTO.Pwd" class="control-label"></label>
+        <input asp-for="LoginDTO.Pwd" class="form-control" value="00000"/>
+        <span asp-validation-for="LoginDTO.Pwd" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Log in" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

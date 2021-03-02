@@ -27,12 +27,29 @@ namespace uul_web.Models.Clients {
 
                 httpResponse.EnsureSuccessStatusCode();
 
-                //using var httpResponseStream = await httpResponse.Content.ReadAsStreamAsync();
                 var jsonString = await httpResponse.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<List<UserWebInfoDTO>>(jsonString);
-                
-                //var data = await _httpClient.GetFromJsonAsync<List<UserWebInfoDTO>>("/api/webusers/list");
                 result = new UULResponse() { Success = true, Data = data, Message = "" };
+            } catch (Exception e) {
+                result = new UULResponse() { Success = false, Data = null, Message = e.Message };
+            }
+            return result;
+        }
+
+        public async Task<UULResponse>UpdateUsertAsync(UserWebInfoDTO dto) {
+
+            UULResponse result;
+            try {
+                var data = JsonConvert.SerializeObject(dto);
+                var stringContent = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+                using var httpResponse = await _httpClient.PostAsync("/api/webusers/update", stringContent);
+
+                httpResponse.EnsureSuccessStatusCode();
+
+                var jsonString = await httpResponse.Content.ReadAsStringAsync();
+                var output = JsonConvert.DeserializeObject<UserWebInfoDTO>(jsonString);
+
+                result = new UULResponse() { Success = true, Data = output, Message = "" };
             } catch (Exception e) {
                 result = new UULResponse() { Success = false, Data = null, Message = e.Message };
             }

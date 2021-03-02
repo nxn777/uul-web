@@ -26,7 +26,7 @@ namespace uul_web.Controllers {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Auth/SignedOut");
         }
 
     }

@@ -1,0 +1,51 @@
+﻿@page
+@using Newtonsoft.Json
+@model uul_web.Pages.Users.UsersListModel
+@{
+    ViewData["Title"] = "Users List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Users list</h1>
+</div>
+<div asp-validation-summary="All" class="text-danger"></div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Apartment
+            </th>
+            <th>
+                Login
+            </th>
+            <th>
+                Activation status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.users) {
+
+
+            string asJson = JsonConvert.SerializeObject(item);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApartmentCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActivated)
+                </td>
+
+                <td>
+
+                    <a asp-page-handler="Edit" asp-route-id="@asJson">Edit</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,6 @@
 ﻿@page
+@using Newtonsoft.Json
+
 @model uul_web.Pages.News.NewsListModel
 @{
     ViewData["Title"] = "News List";
@@ -7,3 +9,59 @@
 <div class="text-center">
     <h1 class="display-4">News list</h1>
 </div>
+<button type="button" class="btn btn-primary">Create new</button>
+<div asp-validation-summary="All" class="text-danger"></div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Created / Updated at
+            </th>
+            <th>
+                Auditory
+            </th>
+            <th>
+                Author
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.news) {
+
+
+            long? id = item.ID;
+            <tr>
+                <td>
+                    @Html.DisplayFor(_ => item.Title)
+                </td>
+
+                <td>
+                    <span class="timestamp">
+                        <script type="text/javascript">
+                            var entrydate = new Date('@item.LastModifiedAt.ToUniversalTime().ToString("R")');
+                            document.write(entrydate.toLocaleDateString());
+                            document.write(' at ');
+                            document.write(entrydate.toLocaleTimeString());
+                        </script>
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(_ => item.Auditory)
+                </td>
+                <td>
+                    @Html.DisplayFor(_ => item.Author)
+                </td>
+
+                <td>
+
+                    <a asp-page-handler="Edit" asp-route-id="@id">Edit</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+﻿@page
+@using uul_api.Models
+@model uul_web.Pages.News.NewsEditModel
+@{
+}
+
+<h1>Edit news</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post">
+    <div class="form-group" hidden="hidden">
+        <label asp-for="Dto.ID" class="control-label"></label>
+        <input asp-for="Dto.ID" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Dto.CreatedAt" class="control-label"></label>
+        <input asp-for="Dto.CreatedAt" class="form-control" disabled="disabled" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Dto.UpdatedAt" class="control-label"></label>
+        <input asp-for="Dto.UpdatedAt" class="form-control" disabled="disabled" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Dto.Author" class="control-label"></label>
+        <input asp-for="Dto.Author" class="form-control" />
+        <span asp-validation-for="Dto.Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Dto.Title" class="control-label"></label>
+        <input asp-for="Dto.Title" class="form-control" />
+        <span asp-validation-for="Dto.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Dto.Content" class="control-label"></label>
+        <textarea asp-for="Dto.Content" class="form-control" text-wrap:normal" type="text" placeholder="Place news content here" rows="20"></textarea>
+        <span asp-validation-for="Dto.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Dto.Auditory" class="control-label"></label>
+        <select asp-for="Dto.Auditory" class="form-control" asp-items="@Html.GetEnumSelectList<Auditory>()"></select>
+    </div>
+    <div class="form-group">
+        @if (Model.Dto.ID != null) {
+            <input type="submit" value="Update" class="btn btn-primary" />
+        } else {
+            <input type="submit" value="Create" class="btn btn-primary" />
+        }
+    </div>
+</form>
+
+<div>
+    <a asp-page-handler="Delete" asp-route-id="@Model.Dto.ID">Delete</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

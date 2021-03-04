@@ -71,20 +71,16 @@ namespace uul_web {
         }
 
         private void AddRestClients(IServiceCollection services, string baseUrl) {
-            services.AddHttpClient<LoginClient>((sp, client) => {
-                client.BaseAddress = new Uri("https://192.168.100.8:5001");
-                client.Timeout = TimeSpan.FromSeconds(5);
-            }).ConfigurePrimaryHttpMessageHandler(() => {
-                var handler = new HttpClientHandler();
-                if (_env.IsDevelopment()) {
-                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                }
-                return handler;
-            });
-            services.AddHttpClient<UsersClient>((sp, client) => {
+            AddUnsafeClient<LoginClient>(services, baseUrl);
+            AddUnsafeClient<UsersClient>(services, baseUrl);
+            AddUnsafeClient<NewsClient>(services, baseUrl);
+        }
+
+        private void AddUnsafeClient<T>(IServiceCollection services, string baseUrl) where T: class {
+            services.AddHttpClient<T>((sp, client) => {
                 var claims = sp.GetService<IHttpContextAccessor>().HttpContext.User.Claims;
-                string token = claims.Where(c => c.Type.Equals("token")).First().Value;
-                client.BaseAddress = new Uri("https://192.168.100.8:5001");
+                string token = claims.Where(c => c.Type.Equals("token")).FirstOrDefault()?.Value ?? "";
+                client.BaseAddress = new Uri(baseUrl);
                 client.Timeout = TimeSpan.FromSeconds(5);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }).ConfigurePrimaryHttpMessageHandler(() => {

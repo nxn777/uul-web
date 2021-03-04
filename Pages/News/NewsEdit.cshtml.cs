@@ -39,6 +39,14 @@ namespace uul_web.Pages.News
             return Page();
         }
 
+        public async Task<IActionResult> OnPostAsync() {
+            var response = await _client.UpsertNewsAsync(Dto);
+            if (response == null || !response.Success) {
+                ModelState.AddModelError(string.Empty, "Failed to update news item");
+                return Page();
+            }
+            return RedirectToPage("/News/NewsList");
+        }
         public IActionResult OnGetDelete(long? Id) {
             _logger.LogInformation("delete " + Id);
             return RedirectToPage("/News/NewsList");

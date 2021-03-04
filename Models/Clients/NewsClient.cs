@@ -52,12 +52,12 @@ namespace uul_web.Models.Clients {
             return result;
         }
 
-        public async Task<UULResponse<NewsWebDTO>>UpsertNewsAsync(UserWebInfoDTO dto) {
+        public async Task<UULResponse<NewsWebDTO>>UpsertNewsAsync(NewsWebDTO dto) {
 
             UULResponse<NewsWebDTO> result;
             try {
                 var data = JsonConvert.SerializeObject(dto);
-                var stringContent = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+                var stringContent = new StringContent(data, Encoding.UTF8, "application/json");
                 using var httpResponse = await _httpClient.PostAsync("/api/webnews/news", stringContent);
 
                 httpResponse.EnsureSuccessStatusCode();

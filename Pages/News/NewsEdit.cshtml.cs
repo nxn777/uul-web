@@ -33,6 +33,7 @@ namespace uul_web.Pages.News
 
             if (response == null || !response.Success) {
                 ModelState.AddModelError(string.Empty, "Failed to get news item");
+                Dto = new NewsWebDTO();
                 return Page();
             }
             Dto = response.Data;
@@ -43,12 +44,19 @@ namespace uul_web.Pages.News
             var response = await _client.UpsertNewsAsync(Dto);
             if (response == null || !response.Success) {
                 ModelState.AddModelError(string.Empty, "Failed to update news item");
+                Dto = new NewsWebDTO();
                 return Page();
             }
             return RedirectToPage("/News/NewsList");
         }
-        public IActionResult OnGetDelete(long? Id) {
+        public async Task<IActionResult> OnGetDelete(long? Id) {
             _logger.LogInformation("delete " + Id);
+            var response = await _client.DeleteNewsByIdAsync(Id);
+            if (response == null || !response.Success) {
+                ModelState.AddModelError(string.Empty, "Failed to delete news item");
+                Dto = new NewsWebDTO();
+                return Page();
+            }
             return RedirectToPage("/News/NewsList");
         }
     }

@@ -52,6 +52,23 @@ namespace uul_web.Models.Clients {
             return result;
         }
 
+        public async Task<UULResponse> DeleteNewsByIdAsync(long? id) {
+
+            UULResponse result;
+            try {
+
+                using var httpResponse = await _httpClient.DeleteAsync("/api/webnews/" + id);
+
+                httpResponse.EnsureSuccessStatusCode();
+
+                var jsonString = await httpResponse.Content.ReadAsStringAsync();
+                result = JsonConvert.DeserializeObject<UULResponse>(jsonString);
+            } catch (Exception e) {
+                result = new UULResponse() { Success = false, Data = null, Message = e.Message };
+            }
+            return result;
+        }
+
         public async Task<UULResponse<NewsWebDTO>>UpsertNewsAsync(NewsWebDTO dto) {
 
             UULResponse<NewsWebDTO> result;
@@ -69,5 +86,6 @@ namespace uul_web.Models.Clients {
             }
             return result;
         }
+
     }
 }

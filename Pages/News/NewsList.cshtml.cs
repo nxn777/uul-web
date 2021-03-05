@@ -36,5 +36,8 @@ namespace uul_web.Pages.News
         public IActionResult OnGetEdit(long? Id) {
             return RedirectToPage("/News/NewsEdit", "News", new { passedObject = Id });
         }
+        public IActionResult OnPostCreate() {
+            return RedirectToPage("/News/NewsEdit", "News", new { });
+        }
     }
 }

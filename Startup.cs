@@ -29,7 +29,9 @@ namespace uul_web {
         public void ConfigureServices(IServiceCollection services) {
            
             services.AddHttpContextAccessor();
-            AddRestClients(services, "https://192.168.100.8:5001");
+            string apiBaseUrl = Configuration.GetValue<string>("ApiBaseUrl");
+
+            AddRestClients(services, apiBaseUrl);
             services.AddRazorPages();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
